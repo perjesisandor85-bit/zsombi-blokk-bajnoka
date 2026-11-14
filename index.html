@@ -1,0 +1,349 @@
+<!doctype html>
+<html lang="hu">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#17251c">
+<meta name="description" content="Zsombi személyre szabott, játékos magyar tanulóprogramja.">
+<title>Zsombi BlokkBajnoka – Tanulóvilág</title>
+<style>
+:root{--bg:#17251c;--panel:#263a2d;--green:#77d65b;--lime:#b5f36a;--gold:#ffd45c;--ink:#f5f5e9;--muted:#c4d0c1;--line:#526a55}
+*{box-sizing:border-box}body{margin:0;background:linear-gradient(145deg,#17251c,#22372a 60%,#18271e);color:var(--ink);font-family:system-ui,-apple-system,"Segoe UI",sans-serif;min-height:100vh}button,input{font:inherit}button{cursor:pointer;border:0;color:#17251c;background:var(--green);font-weight:850;border-radius:12px;padding:13px 16px;box-shadow:0 4px 0 #3c8735;min-height:48px;touch-action:manipulation}button:active{transform:translateY(3px);box-shadow:0 1px 0 #3c8735}button.secondary{background:#d5e2d0;box-shadow:0 4px 0 #879985}button.gold{background:var(--gold);box-shadow:0 4px 0 #a17c20}button.dark{background:#3b5742;color:white;box-shadow:0 4px 0 #17251c;border:1px solid var(--line)}button.danger{background:#ffb0a8;box-shadow:0 4px 0 #9c4545}button:disabled{opacity:.45}
+header{padding:10px 14px;display:flex;align-items:center;justify-content:space-between;gap:8px;border-bottom:3px solid #101b14;background:#1c2d22;position:sticky;top:0;z-index:5}.logo{display:flex;align-items:center;gap:9px;font-weight:1000;font-size:clamp(16px,3vw,24px)}.cube{width:34px;height:34px;background:var(--green);display:grid;place-items:center;color:#17301b;border:3px solid #d2ff9e;box-shadow:4px 4px 0 #0b160f;font-size:20px}.stats{display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end}.chip,.pill{background:#304735;border:1px solid var(--line);padding:6px 9px;border-radius:10px;font-size:12px;font-weight:850}
+main{max-width:1080px;margin:auto;padding:14px 12px 38px}.hero{background:linear-gradient(120deg,#36543c,#263d2d);border:2px solid #58765a;border-radius:18px;padding:17px;margin-bottom:14px;box-shadow:0 7px 0 #101b14}.hero h1{margin:0 0 6px;font-size:clamp(23px,4vw,34px)}.hero p{margin:0;color:var(--muted)}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:11px}.tile{background:var(--panel);border:2px solid var(--line);border-radius:16px;padding:15px;box-shadow:0 5px 0 #101b14}.tile h2,.tile h3{margin:0 0 8px}.tile p{color:var(--muted);margin:6px 0 13px;line-height:1.45}.tile button{width:100%;margin-top:4px}.wide{grid-column:1/-1}.progress{height:12px;background:#101b14;border-radius:20px;overflow:hidden;border:1px solid #5c735e}.progress>div{height:100%;width:0;background:linear-gradient(90deg,#6ecf55,#c2f77b);transition:width .25s}#lesson,#parent{display:none}.topline{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:11px}.question{font-size:clamp(19px,3vw,25px);font-weight:850;line-height:1.35;margin:14px 0}.reading{font-size:clamp(20px,3vw,27px);line-height:1.65;background:#f5f0dc;color:#283326;border:4px solid #a3a17a;border-radius:14px;padding:clamp(14px,3vw,24px);font-weight:600}.answers{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin:16px 0}.answers button{min-height:56px;background:#e5eddd;box-shadow:0 4px 0 #879985;color:#233326;font-size:18px}.answers button.selected{outline:4px solid var(--gold);background:#fff0b5}.feedback{padding:13px;border-radius:12px;margin:12px 0;font-weight:750;display:none;line-height:1.5}.feedback.good{display:block;background:#234f2c;border:1px solid #7ce36c}.feedback.bad{display:block;background:#5b3030;border:1px solid #ff9999}.feedback.info{display:block;background:#244459;border:1px solid #8dd7f5}.row{display:flex;gap:9px;flex-wrap:wrap;align-items:center}.row button{flex:1;min-width:120px}.field{width:100%;padding:14px;border-radius:12px;border:2px solid #9eae9d;background:#f8f8ee;color:#1b2b1e;font-size:20px}.small{font-size:13px;color:var(--muted)}.wordmark{display:inline-block;padding:2px 7px;border-radius:6px;background:#415e43;color:#eaffd7;font-weight:800}.readwords{display:flex;flex-wrap:wrap;gap:6px;line-height:2.1}.readword{padding:3px 6px;border-radius:7px;background:#e5eddd;color:#263326;font-size:16px}.readword.ok{background:#c5f4bd;border:1px solid #3d9b37}.readword.miss{background:#ffd3d0;border:1px solid #c84d45}.readword.extra{background:#ffe9a8;border:1px solid #b58a20}.legend{display:flex;gap:9px;flex-wrap:wrap;font-size:12px;color:#263326;margin:9px 0}.legend span{padding:4px 7px;border-radius:7px}.green{background:#c5f4bd}.red{background:#ffd3d0}.yellow{background:#ffe9a8}.statgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}.stat{background:#1e3024;border:1px solid var(--line);border-radius:12px;padding:11px;text-align:center}.stat strong{display:block;font-size:23px;color:var(--lime)}.barrow{display:flex;justify-content:space-between;gap:10px;border-bottom:1px solid var(--line);padding:8px 0}.hidden{display:none!important}.footer{color:#9fb09f;font-size:12px;text-align:center;margin-top:22px}.readpanel{background:#f5f0dc;color:#253326;border-radius:12px;padding:12px;margin-top:12px}.readpanel button{width:auto}.encourage{font-size:17px;color:var(--gold);font-weight:900;margin:8px 0}.karaoke{display:flex;flex-wrap:wrap;gap:7px;line-height:2.25;background:#f5f0dc;color:#263326;padding:14px;border-radius:12px;margin:12px 0}.kw{display:inline-block;padding:4px 7px;border-radius:7px;background:#e5eddd;color:#263326;font-size:clamp(17px,2.5vw,22px);border:2px solid transparent}.kw.done{background:#c5f4bd;border-color:#3d9b37}.kw.active{background:#ffe9a8;border-color:#b58a20;box-shadow:0 0 0 2px #fff2c2}.kw.retry{background:#ffe9a8;border-color:#b58a20}.kw.wrong{background:#ffd3d0;border-color:#c84d45}.shopgrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}.item{background:#1e3024;border:1px solid var(--line);border-radius:12px;padding:10px;display:flex;flex-direction:column;gap:7px}.item .emoji{font-size:30px}.item button{width:100%;padding:9px;min-height:42px}.item.owned{border-color:#8bdc68;background:#2b4a32}.shop-tabs{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0}.shop-tabs button{flex:1}.periodgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:12px}
+.questbox{background:#1e3024;border:1px solid var(--line);border-radius:12px;padding:13px;margin:10px 0}
+.questline{display:flex;justify-content:space-between;gap:8px;align-items:center;margin:7px 0}
+.questbar{height:9px;background:#101a13;border-radius:20px;overflow:hidden;flex:1;min-width:55px}
+.questbar>i{display:block;height:100%;background:var(--green);width:0}
+.reward{color:var(--gold);font-weight:900;white-space:nowrap}
+.setgrid{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0}
+.setpiece{border:1px solid var(--line);border-radius:10px;padding:8px;background:#1e3024;min-width:100px;flex:1;text-align:center}
+.setpiece.have{border-color:#8bdc68;background:#2b4a32}
+
+@media(max-width:650px){.shopgrid{grid-template-columns:repeat(2,minmax(0,1fr))}.periodgrid{grid-template-columns:1fr}.grid{grid-template-columns:1fr}.wide{grid-column:auto}.answers{grid-template-columns:1fr}header{align-items:flex-start}.stats{max-width:57%}.chip{font-size:10px;padding:6px}.topline{align-items:flex-start}.statgrid{grid-template-columns:repeat(2,1fr)}}
+
+/* Olvasófelület: tablet, fekvő mód és görgetés nélküli megjelenítés */
+.reading-stage{background:#f5f0dc;color:#263326;border:4px solid #a3a17a;border-radius:16px;padding:clamp(12px,2.2vw,26px);margin:10px 0;}
+.karaoke{display:block;line-height:1.75;padding:clamp(8px,1.5vw,16px);margin:0;max-height:none;overflow:visible}
+.kw{font-size:clamp(22px,2.5vw,32px);line-height:1.55;padding:2px 5px;margin:2px 1px}
+.read-controls{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px}.read-controls button{flex:1;min-width:150px}
+.read-toolbar{display:flex;justify-content:space-between;gap:8px;align-items:center;flex-wrap:wrap;color:#263326;font-size:14px;margin-bottom:8px}
+.reading-mode{font-size:clamp(20px,2.5vw,30px)}
+body.reading-focus{overflow:hidden}body.reading-focus header{display:none}body.reading-focus main{max-width:1500px;padding:8px;margin:0 auto}body.reading-focus #lesson{height:100dvh;display:flex;flex-direction:column}body.reading-focus #lesson>.topline{flex:0 0 auto}body.reading-focus #lesson>.tile{flex:1;min-height:0;display:flex;flex-direction:column;padding:clamp(8px,1.5vw,18px)}body.reading-focus #task{flex:1;min-height:0;display:flex;flex-direction:column}body.reading-focus .reading-stage{flex:1;display:flex;flex-direction:column;justify-content:center;min-height:0;margin:4px 0;padding:clamp(8px,1.5vw,18px)}body.reading-focus .karaoke{overflow:hidden}body.reading-focus .small{font-size:14px}body.reading-focus #lesson>.small{display:none}
+.font-normal .kw{font-size:clamp(21px,2.3vw,29px)}.font-large .kw{font-size:clamp(24px,2.8vw,34px)}.font-xl .kw{font-size:clamp(27px,3.2vw,39px)}
+.guide{display:flex;gap:10px;align-items:center;background:#1e3024;border:1px solid var(--line);border-radius:12px;padding:12px;margin:10px 0}.guide .avatar{font-size:34px}
+@media(orientation:landscape) and (min-width:700px){main{max-width:1400px}.reading-stage{padding:18px 24px}.kw{font-size:clamp(25px,2.2vw,36px)}}
+@media(max-height:600px) and (orientation:landscape){.kw{font-size:clamp(19px,2.3vw,26px)}.question{margin:5px 0}.read-controls button{min-height:40px;padding:8px}}
+@media(max-width:650px){.kw{font-size:clamp(20px,5vw,27px)}}
+
+/* 6.0 – tematikus, de olvasható Minecraft-hangulat */
+:root{--muki:#79c95b;--muki-dark:#315d36}
+body{background-color:#17251c;background-image:linear-gradient(rgba(255,255,255,.018) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.018) 1px,transparent 1px),linear-gradient(145deg,#17251c,#22372a 60%,#18271e);background-size:28px 28px,28px 28px,auto}
+.tile,.hero,.guide{position:relative}
+.tile{background:linear-gradient(145deg,#2b4031,#223529);border-color:#526e53}
+.activity-muki{display:flex;align-items:center;gap:12px;background:linear-gradient(120deg,#294632,#1e3024);border:2px solid #567653;border-radius:16px;padding:10px 13px;margin:12px 0;min-height:92px}
+.muki-art{width:76px;height:76px;flex:0 0 76px;image-rendering:pixelated;filter:drop-shadow(3px 4px 0 rgba(0,0,0,.25));transition:transform .22s ease}
+.muki-art.happy{animation:muki-hop .55s ease 2}
+.muki-art.think{animation:muki-nod .5s ease 2}
+.muki-art.idle{animation:muki-float 2.8s ease-in-out infinite}
+@keyframes muki-hop{0%,100%{transform:translateY(0) rotate(0)}35%{transform:translateY(-12px) rotate(-5deg)}70%{transform:translateY(-5px) rotate(5deg)}}
+@keyframes muki-nod{0%,100%{transform:rotate(0)}35%{transform:rotate(-7deg)}70%{transform:rotate(5deg)}}
+@keyframes muki-float{0%,100%{transform:translateY(0)}50%{transform:translateY(-3px)}}
+.muki-copy{min-width:0;flex:1}
+.muki-name{font-weight:950;color:#c9f59d;letter-spacing:.03em}
+.muki-bubble{display:none;margin-top:5px;padding:9px 11px;border-radius:12px;background:#f4f0dc;color:#263326;font-weight:750;line-height:1.35;position:relative}
+.muki-bubble.show{display:block;animation:bubble-in .18s ease-out}
+@keyframes bubble-in{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:translateY(0)}}
+.muki-bubble:before{content:"";position:absolute;left:-7px;top:14px;border-width:7px 7px 7px 0;border-style:solid;border-color:transparent #f4f0dc transparent transparent}
+body.activity-focus{overflow-x:hidden}
+body.activity-focus header{display:none}
+body.activity-focus main{max-width:1450px;padding:10px 12px 24px}
+body.activity-focus #lesson,body.activity-focus #english{min-height:calc(100dvh - 20px)}
+body.activity-focus #lesson>.tile,body.activity-focus #english>.tile{min-height:calc(100dvh - 95px)}
+body.activity-focus #task{max-width:1100px;margin:0 auto;width:100%}
+body.activity-focus #english .tile{max-width:1200px;margin:0 auto}
+body.activity-focus .topline{position:sticky;top:0;z-index:4;background:#17251c;padding:7px 0}
+.minecraft-button{background:linear-gradient(#8fcf65 0 42%,#5a9d45 42% 100%);border:2px solid #c5ed9c!important;border-radius:7px!important;box-shadow:0 4px 0 #315d36!important;color:#142719!important;text-shadow:0 1px rgba(255,255,255,.25)}
+.minecraft-button:active{box-shadow:0 1px 0 #315d36!important}
+#englishMuki{margin-top:12px}
+@media(max-width:560px){.activity-muki{padding:8px;gap:8px}.muki-art{width:62px;height:62px;flex-basis:62px}body.activity-focus main{padding:6px 8px 18px}}
+
+</style>
+</head>
+<body>
+<header><div class="logo"><span class="cube">Z</span><span>ZSOMBI BLOKKBAJNOKA</span></div><div class="stats"><span class="chip">⭐ <b id="points">0</b></span><span class="chip">🏆 <b id="level">1</b>. szint</span><span class="chip">🧱 <b id="ownedCount">0</b> tárgy</span></div></header>
+<main>
+<section id="home">
+ <div class="hero"><h1>Szia, Zsombi! 👋</h1><p>Üdv a kockák világában! Minden jó próbálkozással ügyesebb építő és olvasó leszel.</p><div class="row" style="margin-top:14px"><div style="flex:1;min-width:150px"><div class="small">Mai gyakorlás: <b id="minutes">0</b> perc</div><div class="small">Minden perc számít – nincs időkorlát!</div></div><button class="gold" onclick="start('read')">▶ Napi kaland</button></div></div>
+ <div class="guide"><div class="muki-art idle" aria-label="Muki, a zöld kockakarakter"><svg viewBox="0 0 96 96" width="100%" height="100%" shape-rendering="crispEdges" aria-hidden="true"><path fill="#315d36" d="M17 23 28 12h43l11 11v48L71 83H28L17 72z"/><path fill="#8bdc63" d="M22 24 31 16h37l9 9v43l-9 9H31l-9-9z"/><path fill="#a8ef78" d="M28 22h35v7H28z"/><path fill="#fff" d="M32 39h10v13H32zM55 39h10v13H55z"/><path fill="#203626" d="M36 43h5v7h-5zM59 43h5v7h-5z"/><path fill="#315d36" d="M39 61h19v5H39zM35 57h5v4h-5zM58 57h5v4h-5z"/><path fill="#6eb84e" d="M8 42h10v22H8zM78 42h10v22H78z"/><path fill="#315d36" d="M30 78h12v10H30zM55 78h12v10H55z"/></svg></div><div style="flex:1"><b id="guideTitle">Muki, a segítőd</b><div id="guideMessage" class="small">Szia, Zsombi! Készen állok, hogy együtt kalandozzunk.</div><div class="small">Muki minden feladatnál veled tart.</div></div></div>
+ <div class="tile"><h2>🗺️ Saját Minecraft-világ</h2><p>Építsd a saját faludat a tanulással szerzett pontjaidból!</p><div id="myWorld"></div></div>
+ <div class="tile"><h2>🇬🇧 Angol tanulóvilág</h2><p>A Young Stars 3 nyolc modulja közül te választod ki, mit szeretnél gyakorolni.</p><button class="gold" onclick="showEnglish()">Angol világ megnyitása</button><div id="englishSummary" class="small" style="margin-top:8px"></div></div>
+ <div class="tile"><h2>🗺️ Kalandtérkép</h2><div id="storyQuest"></div></div>
+ <div class="tile"><h2>🎯 Napi küldetések</h2><div id="dailyMissions"></div></div>
+ <div class="tile"><h2>👹 Heti főellenség</h2><div id="weeklyBoss"></div></div>
+ <div class="tile"><h2>🧥 Felszerelésszett</h2><div id="equipmentSet"></div></div>
+ <div class="grid">
+  <article class="tile"><h2>📖 Hangos olvasás</h2><p>Olvass fel történeteket. Szavankénti visszajelzést kapsz arról, mit ismert fel a mikrofon.</p><button onclick="start('read')">Olvasás gyakorlása</button></article>
+  <article class="tile"><h2>🔎 Szövegértés</h2><p>Olvasd el a történetet, és keresd meg a választ!</p><button onclick="start('comprehension')">Szövegértés</button></article>
+  <article class="tile"><h2>✍️ Helyesírás</h2><p>J–ly, hosszú-rövid hangok és gyakori szóalakok.</p><button onclick="start('spelling')">Helyesírás</button></article>
+  <article class="tile"><h2>🧩 Nyelvtan</h2><p>Magánhangzók, mássalhangzók és szófajok.</p><button onclick="start('grammar')">Nyelvtani küldetés</button></article>
+  <article class="tile"><h2>🔤 Szótagoló</h2><p>Szótagok száma és szótagolás.</p><button onclick="start('syllable')">Szótagoló</button></article>
+  <article class="tile"><h2>📝 Mondatépítő</h2><p>Írásjelek és mondatfajták.</p><button onclick="start('sentence')">Mondatépítő</button></article>
+  <article class="tile"><h2>📚 Szókincs</h2><p>Rokon értelmű szavak és ellentétek.</p><button onclick="start('vocabulary')">Szókincskaland</button></article>
+  <article class="tile"><h2>🛒 Minecraft bolt</h2><p>Váltsd be a megszerzett pontokat felszerelésre, páncélokra, lényekre és ritka tárgyakra!</p><button class="gold" onclick="showShop()">Bolt megnyitása</button></article>
+  <article class="tile"><h2>📊 Szülői eredmények</h2><p>Fejlődés, napi gyakorlás és olvasási eredmények.</p><button class="secondary" onclick="showParent()">Szülői felület</button></article>
+  <article class="tile wide"><h3>🧱 Végtelen gyakorlás</h3><p>Minden feladattípus külön generátort használ. A feladatokat sokféle szó, mondat, név, helyszín, kérdésminta és válaszsorrend kombinációjából állítja elő. A generátor minden kategóriában legalább 3500 kombinációs változatot céloz; ez nem 3500 előre kézzel ellenőrzött feladat. A feladatok ismétlődését az aktuális gyakorlási körben kezeli.</p><p class="small">A hangfelismerés Chrome-ban, HTTPS-en, mikrofonengedéllyel működhet. Félrehallhat, ezért nem alkalmas a kiejtés biztos megítélésére.</p></article>
+ </div>
+</section>
+<section id="lesson"><div class="topline"><button class="dark" onclick="goHome()">← Főmenü</button><span class="pill" id="modeLabel">Küldetés</span><span class="pill" id="skillLevel">1. nehézség</span><span class="pill">Feladat <b id="qnum">1</b></span></div><div class="tile"><div class="progress"><div id="taskbar"></div></div><div id="lessonMuki" class="activity-muki"></div><div id="task"></div><div id="feedback" class="feedback" role="status" aria-live="polite"></div><div class="row" style="margin-top:14px"><button class="secondary" id="check" class="minecraft-button" onclick="checkAnswer()">Ellenőrzés</button><button class="gold hidden" id="next" onclick="nextQuestion()">Következő ➜</button></div></div><p class="small">Zsombi, minden próbálkozás gyakorlás! Ha nehéz, próbáld újra, nem baj, ha elsőre nem sikerül.</p></section>
+<section id="english" style="display:none"><div class="topline"><button class="dark" onclick="goHome()">← Főmenü</button><span class="pill">🇬🇧 Angol tanulóvilág</span></div><div class="tile"><div id="englishMuki" class="activity-muki"></div><h2>Válassz modult, Zsombi!</h2><p>A Young Stars 3 moduljai közül választhatsz. Gyakorolj szókincset vagy nyelvtant a saját tempódban.</p><div id="unitGrid" class="shopgrid"></div><div id="unitDetail" style="margin-top:14px"></div></div></section>
+<section id="shop" style="display:none"><div class="topline"><button class="dark" onclick="goHome()">← Főmenü</button><span class="pill">🛒 Kockabolt</span><span class="pill">⭐ <b id="shopPoints">0</b></span></div><div class="tile"><h2>Gyűjtsd össze a felszerelést!</h2><p class="small">A megvásárolt tárgyak a gyűjteményedbe kerülnek. Egy tárgyat csak egyszer kell megvenned.</p><div class="shop-tabs"><button class="gold" onclick="renderShop('all')">Összes tárgy</button><button class="secondary" onclick="renderShop('owned')">Gyűjteményem</button></div><div id="shopGrid" class="shopgrid"></div></div></section>
+<section id="parent"><div class="topline"><button class="dark" onclick="goHome()">← Főmenü</button><span class="pill">Szülői felület</span></div><div class="tile"><h2>📊 Zsombi tanulási naplója</h2><div class="statgrid" id="parentStats"></div><h3 style="margin-top:20px">Gyakorlási idő</h3><div id="timeStats" class="periodgrid"></div><h3 style="margin-top:20px">Feladattípusok és tudásszintek</h3><div id="typeStats"></div><h3 style="margin-top:20px">Legutóbbi olvasások</h3><div id="readingStats"></div><div class="row" style="margin-top:18px"><button class="secondary" onclick="exportData()">Biztonsági mentés letöltése</button><button class="secondary" onclick="document.getElementById('restoreFile').click()">Mentés visszaállítása</button><input id="restoreFile" type="file" accept="application/json" class="hidden" onchange="restoreData(event)"><button class="danger" onclick="resetData()">Haladás törlése</button></div><p class="small">Az adatok automatikusan ezen az eszközön, ebben a böngészőben tárolódnak. Frissítés előtt tölts le biztonsági mentést, és időnként másold át másik eszközre is.</p></div></section>
+<div class="footer">Zsombi BlokkBajnoka • Olvasás, magyar gyakorlás és angol • Helyi mentés</div>
+</main>
+<script>
+'use strict';
+
+const $=id=>document.getElementById(id),KEY='zsombi_blokk_v6',today=()=>new Date().toLocaleDateString('hu-HU');
+const labels={read:'Hangos olvasás',comprehension:'Szövegértés',spelling:'Helyesírás',grammar:'Nyelvtan',syllable:'Szótagoló',sentence:'Mondatépítő',vocabulary:'Szókincs'};
+const nouns=['kutya','macska','róka','sün','mókus','madár','ló','nyúl','béka','hal','gyerek','tanító','kertész','hajó','vonat','labda','könyv','ceruza','alma','körte','erdő','patak','kert','iskola','ház','vár','autó','bicikli','asztal','ablak','virág','felhő','csillag','nap','hold','táska','doboz','méhecske','pillangó','szivárvány','barack','szilva','szőlő','szekrény','szőnyeg','madáretető','játszótér','hegy','folyó','tenger','zebra','zsiráf','elefánt','pingvin','delfin','teknős','szurikáta','oroszlán','jaguár','krokodil','papagáj','hóember','hógolyó','kesztyű','sapka','kabát','csizma','füzet','tolltartó','iskolatáska','számítógép','tablet','távcső','térkép','iránytű','híd','alagút','állomás','repülő','űrhajó','bolygó','vulkán','barlang','vízesés','sziget','kastély','templom','piac','pékség','könyvtár','múzeum','színház','sportpálya','uszoda','játszóház','mézeskalács','születésnap','kirándulás','focilabda','madárfészek','hóvirág','napraforgó'];
+const verbs=['fut','ugrik','olvas','rajzol','énekel','játszik','sétál','úszik','nevet','segít','épít','keres','figyel','pihen','kirándul','tanul','főz','fest','alszik','labdázik','kerékpározik','gondolkodik','mesél','kérdez','válaszol','megszámol','megjavít','megfigyel','felfedez','elindul','megérkezik','megkóstol','megsimogat','megment','elbújik','kacag','integet','csomagol','locsol','ültet','gyűjt','válogat','rendez','kiszámol','megkeres','megmutat'];
+const adjectives=['vidám','ügyes','piros','kék','zöld','apró','hatalmas','puha','gyors','lassú','barátságos','bátor','csendes','szorgalmas','színes','finom','érdekes','kedves','magas','kerek','fényes','illatos','hangos','óvatos','boldog','szomorú','izgalmas','titokzatos','varázslatos','szelíd','mérges','éhes','szomjas','törékeny','erős','gyenge','friss','hideg','meleg','sötét','világos'];
+const places=['a kertben','az udvaron','az erdőben','az iskolában','a tóparton','a réten','a szobában','a játszótéren','a könyvtárban','a hegyen','a folyó mellett','a nagymamánál','a piacon','a parkban','a tengerparton','a múzeumban','az állomáson','a sportpályán'];
+const objects=['almát','könyvet','labdát','ceruzát','virágot','madáreleséget','térképet','távcsövet','uzsonnát','hógolyót','kavicsot','levelet','képeslapot','mesekönyvet','kulacsot','színes ceruzát'];
+const spell=[['muszáj','muszály'],['gömbölyű','gömböjű'],['szabály','szabáj'],['hosszú','hoszú'],['kirándulás','kiránduláss'],['különben','külömben'],['egészség','egésség'],['lyuk','juk'],['folyó','fojó'],['helyes','hejjes'],['súly','súj'],['osztály','osztáj'],['bagoly','bagoj'],['pálya','pája'],['mély','méj'],['gally','gaj'],['varjú','varlyú'],['akadály','akadáj'],['veszély','veszéj'],['személy','szeméj'],['papagáj','papagály'],['tojás','tojjás'],['hallgat','halgat'],['meggy','megy'],['fütty','füty'],['lassú','lasú'],['reggel','regel'],['könnyű','könyű'],['mennyi','menyi'],['annyi','anyi'],['állat','álat'],['király','kiráj'],['saját','sajját'],['folyosó','fojosó'],['osztálytárs','osztájtárs']];
+const stories=[
+{t:'Bence szombat reggel korán ébredt. Felvette a kabátját, és kisétált a kertbe. A diófa alatt egy apró sünit talált. Óvatosan szólt anyának, aki egy dobozt hozott neki.',q:'Hol találta Bence a sünit?',a:['A diófa alatt','A konyhában','Az iskola előtt','A tóparton'],c:0},
+{t:'Lili nagyon szerette a könyveket. Egy esős délután a nagymamájával a könyvtárba ment. Kiválasztott egy mesét a sárkányokról, majd otthon kényelmesen elhelyezkedett a fotelben.',q:'Kivel ment Lili a könyvtárba?',a:['Az apukájával','A barátjával','A nagymamájával','A testvérével'],c:2},
+{t:'A kisvonat hét órakor indult az állomásról. Három gyerek szállt fel rá, hogy eljusson az erdei táborba. Útközben őzeket láttak a fák között.',q:'Hová utaztak a gyerekek?',a:['A strandra','Az erdei táborba','A piacra','A múzeumba'],c:1},
+{t:'Misi elhatározta, hogy madáretetőt készít. Deszkát, szöget és kalapácsot kért a papájától. Délutánra elkészült a kis etető, amelybe napraforgómagot tett.',q:'Mit tett Misi az etetőbe?',a:['Mogyorót','Kenyérhéjat','Napraforgómagot','Almát'],c:2},
+{t:'Zsófi a nagypapájával kirándulni indult. Vittek magukkal vizet, almát és egy térképet. Az erdei ösvény mellett egy színes pillangó repült el. Délben egy tisztáson pihentek meg.',q:'Mit vittek magukkal?',a:['Labdát és könyvet','Vizet, almát és térképet','Csak esernyőt','Játékautót'],c:1},
+{t:'A harmadik osztály pénteken könyvtárba látogatott. A gyerekek csendben nézelődtek a polcok között. Marci egy állatokról szóló könyvet választott, Emma pedig egy mesegyűjteményt kölcsönzött.',q:'Milyen könyvet választott Marci?',a:['Szakácskönyvet','Állatokról szólót','Verseskötetet','Térképet'],c:1}
+];
+const pick=a=>a[Math.floor(Math.random()*a.length)],shuffle=a=>[...a].sort(()=>Math.random()-.5),rand=(a,b)=>Math.floor(Math.random()*(b-a+1))+a;
+
+let db=loadDB(),mode='',index=0,current=null,chosen=null,locked=false,recognition=null,heard='',seen=new Set(),deck=[],sessionTimer=null,sessionStart=0,readIndex=0,readWords=[],readStatuses=[],readAttempts=[],readFirstPass=0,readBusy=false,shopFilter='all',readStarted=false,readFinished=false,readTranscript='',readRestartTimer=null,readLastAwarded=false;
+function fresh(){return{points:0,dayKey:today(),daySeconds:0,history:{},totals:{},correct:{},readings:[],lastActive:null,skills:{},owned:[],daily:{},boss:{},setRewarded:false,english:{},world:[]}}
+function loadDB(){try{let d=JSON.parse(localStorage.getItem(KEY));if(!d||!d.totals){let old=JSON.parse(localStorage.getItem('zsombi_blokk_v5'))||JSON.parse(localStorage.getItem('zsombi_blokk_v4'))||JSON.parse(localStorage.getItem('zsombi_blokk_v3'));if(old&&old.totals){old.history=old.history||{};old.skills=old.skills||{};old.owned=old.owned||[];old.english=old.english||{};old.world=old.world||[];return old}return fresh()}d.history=d.history||{};d.skills=d.skills||{};d.owned=d.owned||[];d.readings=d.readings||[];d.daily=d.daily||{};d.boss=d.boss||{};d.setRewarded=!!d.setRewarded;d.points=d.points||0;d.english=d.english||{};d.world=d.world||[];return d}catch(e){return fresh()}}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(db));}catch(e){console.warn('A helyi mentés nem sikerült',e)}updateHeader()}
+function restoreData(ev){let f=ev.target.files&&ev.target.files[0];if(!f)return;let r=new FileReader();r.onload=()=>{try{let d=JSON.parse(r.result);if(!d||typeof d.points!=='number'||!d.history)throw new Error('Érvénytelen mentés');if(!confirm('A mentés betöltése felülírja a jelenlegi haladást ezen az eszközön. Folytatod?'))return;db={...fresh(),...d,history:d.history||{},skills:d.skills||{},owned:d.owned||[],readings:d.readings||[]};save();alert('A mentés sikeresen visszaállt.')}catch(e){alert('A fájl nem használható mentésként.')} };r.readAsText(f);ev.target.value=''}
+function dateKey(d=new Date()){return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')}
+function ensureDay(){let k=dateKey();db.history=db.history||{};if(!db.history[k])db.history[k]=0;db.dayKey=today();db.daySeconds=db.history[k]}
+
+function weekKey(d=new Date()){let x=new Date(Date.UTC(d.getFullYear(),d.getMonth(),d.getDate()));let day=x.getUTCDay()||7;x.setUTCDate(x.getUTCDate()+4-day);let y=new Date(Date.UTC(x.getUTCFullYear(),0,1));let w=Math.ceil((((x-y)/86400000)+1)/7);return x.getUTCFullYear()+'-W'+String(w).padStart(2,'0')}
+function dailyState(){let k=dateKey();if(!db.daily||db.daily.key!==k)db.daily={key:k,tasks:0,words:0,earned:0,claimed:[]};return db.daily}
+function bossState(){let k=weekKey();if(!db.boss||db.boss.key!==k)db.boss={key:k,progress:0,claimed:false};return db.boss}
+function updateMissions(){
+ let d=dailyState(),b=bossState();
+ const chapters=[['A falu megmentése','Teljesíts 5 feladatot.'],['Az elveszett gyémánt','Olvass fel 30 szót.'],['A csontvázbarlang','Érj el 10 helyes választ.'],['A sárkány kapuja','Gyűjts össze 500 pontot.']];let done=Math.min(4,Math.floor((Object.values(db.totals||{}).reduce((a,b)=>a+b,0))/10));$('storyQuest').innerHTML=`<b>${chapters[done][0]}</b><p class="small">${chapters[done][1]} A küldetések egymás után nyílnak meg.</p><div class="questbar"><i style="width:${done*25}%"></i></div><div class="small">${done}/4 fejezet teljesítve</div>`;if($('guideMessage'))$('guideMessage').textContent=done?'Ügyesen haladsz, Zsombi! A következő kaland már vár rád.':'Szia, Zsombi! Minden gyakorlással közelebb kerülsz a következő kalandhoz.';
+ let quests=[{id:'tasks',name:'Teljesíts 5 feladatot',v:d.tasks,goal:5,reward:50},{id:'words',name:'Olvass fel 20 szót',v:d.words,goal:20,reward:50},{id:'points',name:'Gyűjts 100 pontot',v:d.earned,goal:100,reward:50}];
+ $('dailyMissions').innerHTML=quests.map(q=>{let done=d.claimed.includes(q.id),pct=Math.min(100,Math.round(q.v/q.goal*100));return `<div class="questline"><span>${done?'✅':'🔹'} ${q.name}</span><span class="small">${Math.min(q.v,q.goal)}/${q.goal}</span></div><div class="questbar"><i style="width:${pct}%"></i></div><div class="questline"><span class="reward">+${q.reward} ⭐</span>${done?'<span class="small">Átvéve</span>':q.v>=q.goal?`<button class="gold" onclick="claimMission('${q.id}')">Jutalom</button>`:'<span class="small">Folyamatban</span>'}</div>`}).join('');
+ let pct=Math.min(100,Math.round(b.progress/20*100));
+ $('weeklyBoss').innerHTML=`<div class="questline"><strong>💀 Heti csontvázvezér</strong><span>${Math.min(b.progress,20)}/20</span></div><p class="small">Győzz le 20 helyes feladattal a héten! A jutalom 250 pont.</p><div class="questbar"><i style="width:${pct}%"></i></div><div class="questline"><span class="reward">🏆 +250 ⭐</span>${b.claimed?'<span class="small">Legyőzve!</span>':b.progress>=20?'<button class="gold" onclick="claimBoss()">Jutalom átvétele</button>':'<span class="small">Még '+(20-b.progress)+' helyes feladat</span>'}</div>`;
+ let pieces=[0,1,2,3],names=['Bőr fejpánt','Fa kard','Bőr csizma','Zöld köpeny'],icons=['🪖','🗡️','🥾','🧥'],owned=pieces.filter(id=>db.owned.includes(id)).length;
+ $('equipmentSet').innerHTML=`<p class="small">Kezdő kalandor szett – gyűjtsd össze mind a négy darabot! Teljes szettért egyszeri 500 pontos bónusz jár.</p><div class="setgrid">${pieces.map((id,i)=>`<div class="setpiece ${db.owned.includes(id)?'have':''}"><div style="font-size:25px">${icons[i]}</div><b>${names[i]}</b><div class="small">${db.owned.includes(id)?'✅ Megvan':'🔒 Még hiányzik'}</div></div>`).join('')}</div><div class="questline"><b>${owned}/4 darab</b>${db.setRewarded?'<span class="reward">🏆 Bónusz megkapva</span>':owned===4?'<button class="gold" onclick="claimSetReward()">Szettbónusz átvétele</button>':'<span class="small">Teljesítsd a szettet!</span>'}</div>`;
+}
+function claimMission(id){let d=dailyState(),goals={tasks:[5,50],words:[20,50],points:[100,50]},q=goals[id];if(!q||d.claimed.includes(id)||d[id]<q[0])return;d.claimed.push(id);db.points+=q[1];save();updateMissions()}
+function claimBoss(){let b=bossState();if(b.claimed||b.progress<20)return;b.claimed=true;db.points+=250;save();updateMissions()}
+function claimSetReward(){if(db.setRewarded||![0,1,2,3].every(id=>db.owned.includes(id)))return;db.setRewarded=true;db.points+=500;save();updateMissions()}
+function progressGame(ok,words=0,points=0){let d=dailyState(),b=bossState();d.tasks++;d.words+=words;if(ok){b.progress++;d.earned+=points}if(b.progress>=20&&!b.claimed){/* reward is claimed manually */}save();updateMissions()}
+function updateHeader(){if(!$('points'))return;$('points').textContent=db.points;$('level').textContent=1+Math.floor(db.points/100);$('minutes').textContent=Math.floor((db.history?.[dateKey()]||db.daySeconds||0)/60);$('ownedCount').textContent=(db.owned||[]).length;if($('dailyMissions'))updateMissions()}
+function beginSession(){if(sessionTimer)return;ensureDay();sessionStart=Date.now();sessionTimer=setInterval(()=>{let k=dateKey();db.history[k]=(db.history[k]||0)+10;db.daySeconds=db.history[k];save()},10000)}
+function endSession(){if(!sessionTimer)return;clearInterval(sessionTimer);sessionTimer=null;let elapsed=Math.max(0,Math.floor((Date.now()-sessionStart)/1000));let k=dateKey();db.history[k]=(db.history[k]||0)+elapsed%10;db.daySeconds=db.history[k];save()}
+function start(m){document.body.classList.add('activity-focus');initMuki('lessonMuki');endSession();beginSession();mode=m;index=0;seen=new Set();deck=[];$('home').style.display='none';$('parent').style.display='none';$('shop').style.display='none';$('lesson').style.display='block';$('modeLabel').textContent=labels[m];render()}
+function generatedStory(){let who=pick(['Zsombi','Anna','Bence','Lili','Misi','Dani','Zsófi','Peti','Nóri','Marci','Emma','Áron','Janka','Levi','Hanna','Máté','Sára','Oli']);let animal=pick(['egy kismadarat','egy sünit','egy mókust','egy cicát','egy pillangót','egy nyuszit','egy békát','egy teknőst']);let place=pick(places),obj=pick(objects),act=pick(['segített neki','megetette','megrajzolta','megnézte','megmutatta a testvérének','elvitte a tanító néninek','óvatosan megsimogatta','feljegyezte a füzetébe']);let t=`${who} egy napsütéses reggelen ${place} sétált. Egyszer csak meglátott ${animal}. Elővett a táskájából egy ${obj}, majd ${act}. A nap végén boldogan mesélte el a történetet a családjának.`;let qs=[{q:`Hol sétált ${who}?`,a:[place,'A pincében','A buszon','A boltban'],c:0},{q:'Mit vett elő a táskájából?',a:[obj,'Egy széket','Egy kabátot','Egy poharat'],c:0},{q:'Milyen napszakban indult sétálni?',a:['Reggel','Éjfélkor','Este','Délben'],c:0},{q:'Milyen állatot látott?',a:[animal,'Egy oroszlánt','Egy bálnát','Egy tigrist'],c:0}];return{t,...pick(qs)}}
+function syllables(w){return Math.max(1,(w.toLocaleLowerCase('hu').match(/[aáeéiíoóöőuúüű]+/g)||[]).length)}
+function norm(s){return s.toLocaleLowerCase('hu-HU').normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9\s]/g,' ').replace(/\s+/g,' ').trim()}
+const readStoryBank={
+1:[
+'Zsombi reggel felébredt. Kinézett az ablakon, és meglátta a napsütést. Gyorsan felöltözött, majd lement a kertbe. A fűben egy kismadár ugrált.',
+'A kis faluban nagy készülődés volt. A gyerekek zászlókat készítettek. Délután mindenki összegyűlt a téren. A zenére vidáman táncoltak.',
+'A nyuszi répát keresett az erdőben. Talált egy nagy kosarat. Beletette a répákat, és hazavitte őket. A barátai segítettek neki.'
+],
+2:[
+'Zsombi és a barátai kincskeresésre indultak. A térkép egy öreg tölgyfához vezette őket. A fa tövében egy kis ládát találtak. A ládában színes építőkockák voltak. Mindenki választott magának néhányat.',
+'A falusi kovács új kardot készített. Először felhevítette a fémet, majd óvatosan formára kalapálta. A segédje vizet hozott a műhelybe. Mire leszállt az este, elkészült a fényes kard. A kovács büszkén tette a polcra.',
+'Egy esős napon Lili a könyvtárba ment. Talált egy könyvet a tengerek állatairól. Megtudta, hogyan úszik a delfin, és hol él a teknős. Otthon elmesélte a családjának, amit olvasott. Másnap rajzot is készített a kedvenc állatáról.'
+],
+3:[
+'A Minecraft-falu határában különös fény jelent meg. Zsombi magához vette a térképét és az iránytűjét. A barátjával együtt elindult a közeli erdőbe. Útközben egy sérült farkast találtak, ezért vizet és élelmet adtak neki. A farkas hálásan csatlakozott hozzájuk. A fény végül egy régi bánya bejáratához vezette őket.',
+'A harmadik osztály erdei kirándulásra készült. A tanító néni arra kérte a gyerekeket, hogy figyeljék meg a növényeket és az állatokat. Marci egy harkály kopogását hallotta a fák között. Emma apró lábnyomokat fedezett fel a puha földben. A csoport fényképeket készített, de semmit sem vitt haza az erdőből. Másnap közösen plakátot készítettek a természet védelméről.',
+'A kis robot eltévedt az űrállomáson. A kijelzőjén villogott egy térkép, de az útvonal nem volt teljes. Zsombi megkereste a hiányzó jelzéseket, és sorban beírta őket. A robot így megtalálta a vezérlőtermet. Hálából kinyitotta a titkos raktárat, ahol ritka kristályok csillogtak.'
+],
+4:[
+'A falu lakói izgatottan készültek a nagy építőversenyre. Zsombi csapata egy magas, mégis stabil tornyot tervezett. Először kiválogatták a megfelelő blokkokat, majd gondosan lerakták az alapot. Amikor erős szél támadt, a torony kissé megremegett, de nem dőlt össze. A zsűri külön megdicsérte a csapat együttműködését. A gyerekek megtanulták, hogy a jó terv és a türelem sokat számít.',
+'A hegy mögött egy elhagyatott világítótorony állt. Egy este a fénye váratlanul kialudt, ezért a kikötőben dolgozók segítséget kértek. Zsombi és a nagypapája szerszámokat vitt magával. A lépcsőkön óvatosan felmentek a lámpához, és megtalálták a meglazult vezetéket. A nagypapa megjavította a szerkezetet, Zsombi pedig megtisztította az üvegburát. Hamarosan újra messzire világított a torony fénye.',
+'A sárkány nem félelmetes volt, hanem nagyon magányos. A hegy barlangjában őrizte a régi könyveket, de senki sem látogatta meg. Zsombi vitt neki egy mesekönyvet, és megkérdezte, felolvashat-e belőle. A sárkány örömmel hallgatta a történetet, majd megmutatta a legszebb könyvét. Attól a naptól kezdve minden héten együtt olvastak.',
+'A falu mellett új játszóteret építettek. A gyerekek először a terveket nézték meg, majd kiválasztották a színeket. Zsombi azt javasolta, hogy legyen egy alacsony mászóka is a kisebbeknek. A felnőttek megdicsérték az ötletet, mert mindenki biztonságosan játszhatott. A megnyitón sok család gyűlt össze. A nap végén a gyerekek közösen rendet raktak, és elégedetten indultak haza.',
+'A patak vize egy reggel zavarossá vált. Zsombi és Lili megkeresték az okát, de nem nyúltak semmihez, hanem szóltak a felnőtteknek. Kiderült, hogy egy ág torlaszolta el a víz útját. A természetvédők óvatosan eltávolították az akadályt. Néhány óra múlva a víz újra tisztán csillogott. A gyerekek megtanulták, hogy a természetet figyelni és óvni kell.'
+],
+5:[
+'A titkos kapu csak akkor nyílt ki, amikor a három barát együtt oldotta meg a rejtvényt. Az első jel egy régi térképen szerepelt, a második egy kőbe vésett mondat volt, a harmadikat pedig egy dallam rejtette. Zsombi figyelmesen összehasonlította a jeleket, és rájött, hogy mindegyik ugyanarra a helyre mutat. A kapu mögött egy hatalmas, kristályokkal díszített terem tárult fel. A csapat nem sietett tovább, hanem előbb feljegyezte a felfedezés részleteit. Így később pontosan el tudták mesélni, hogyan jutottak el a titkos helyre.',
+'A városi könyvtárban különleges olvasóhetet rendeztek. Minden gyermek olyan történetet választhatott, amelyről szívesen mesélt a többieknek. Zsombi egy bátor felfedezőről szóló könyvet vitt haza. Olvasás közben megállt, ha egy ismeretlen szóval találkozott, és megkereste a jelentését. A hét végén már magabiztosan foglalta össze a történet legfontosabb eseményeit. A tanító néni azt mondta, hogy a figyelmes olvasás legalább olyan fontos, mint a gyorsaság.',
+'A hegyi tó partján egy különös szerkezetet találtak. A fémből készült dobozon apró kapcsolók és színes jelzések sorakoztak. Zsombi először megfigyelte a mintázatot, majd feljegyezte a kapcsolók sorrendjét. A barátai közben ellenőrizték a régi használati útmutatót. Együtt rájöttek, hogy a szerkezet egy víz alatti lámpát vezérel. Amikor bekapcsolták, a tó mélyén egy elsüllyedt csónak körvonalai rajzolódtak ki.',
+'A hegyi menedékházban régi naplót találtak. A lapokon egy felfedező feljegyzései sorakoztak, aki évekkel korábban bejárta a környéket. Zsombi lassan olvasta a bejegyzéseket, és közben térképen kereste a neveket. A napló egy rejtett forráshoz vezette a csapatot. Útközben köveket, mohás fatörzseket és apró virágokat figyeltek meg. A forrás mellett pihentek, majd gondosan visszazárták a kaput. A kirándulás után mindenki leírta, mi volt a legérdekesebb felfedezése. A napló végére Zsombi egy saját rajzot is készített. Így a következő látogatók is könnyebben megtalálhatták a forrást.'
+]};
+
+function makeTask(m){
+ if(m==='read'){let lv=getLevel('read');let bank=readStoryBank[lv]||readStoryBank[1];let s=pick(bank);return{text:s,html:`<div class="reading-stage"><div class="read-toolbar"><b>📖 ${['Kezdő kaland','Felfedező történet','Bátor olvasó','Mesterkaland','Legendás történet'][lv-1]} • ${s.split(/[.!?]+/).filter(x=>x.trim()).length} mondat</b><div class="row"><button class="secondary" style="width:auto;min-height:38px;padding:7px 10px" onclick="setReadFont('normal')">A</button><button class="secondary" style="width:auto;min-height:38px;padding:7px 10px" onclick="setReadFont('large')">A+</button><button class="secondary" style="width:auto;min-height:38px;padding:7px 10px" onclick="setReadFont('xl')">A++</button></div></div><div class="small">Olvasd végig a történetet természetes tempóban! A rendszer olvasás közben színezi a szavakat.</div><div class="legend"><span class="green">🟢 Felismert szó</span><span class="yellow">🟡 Bizonytalan / eltérő</span><span class="red">🔴 Kimaradt / nem egyező</span></div><div class="karaoke font-large" id="readText"></div><div class="read-controls"><button id="mic">🎙 Olvasás indítása</button><button class="secondary" id="finishRead" disabled>✓ Olvasás befejezése</button><button class="secondary" id="speak">🔊 Felolvasás meghallgatása</button><button class="dark" id="focusRead">⛶ Teljes képernyős olvasás</button></div><div id="heard" class="small" aria-live="polite" style="margin-top:8px">A mikrofon indítása után folyamatosan olvashatsz. Nem kell szavanként megállnod.</div><div id="wordResult"></div></div>`}}
+ if(m==='comprehension'){let s=Math.random()<.4?pick(stories):generatedStory();return{answer:s.c,html:`<div class="question">Olvasd el figyelmesen, Zsombi!</div><div class="reading">${s.t}</div><div class="question">${s.q}</div><div class="answers">${s.a.map((a,i)=>`<button data-choice="${i}">${a}</button>`).join('')}</div>`,bind:bindChoices}}
+ if(m==='spelling'){let pair=pick(spell.slice(0,Math.min(spell.length,8+getLevel('spelling')*6))),opts=shuffle(pair);return{answer:opts.indexOf(pair[0]),html:`<div class="question">Melyik szó van helyesen leírva?</div><div class="answers">${opts.map((x,i)=>`<button data-choice="${i}">${x}</button>`).join('')}</div>`,bind:bindChoices}}
+ if(m==='syllable'){let pool=nouns.concat(adjectives,verbs);if(getLevel('syllable')>=3)pool=pool.concat(['számítógép','madáretető','napraforgó','kirándulás','mézeskalács','szivárvány']);let w=pick(pool),n=syllables(w),opts=shuffle([...new Set([Math.max(1,n-1),n,n+1,n+2])]);return{answer:n,html:`<div class="question">Hány szótagból áll ez a szó?</div><div class="reading" style="text-align:center">${w}</div><div class="answers">${opts.map(x=>`<button data-choice="${x}">${x} szótag</button>`).join('')}</div>`,bind:bindChoices}}
+ if(m==='grammar'){let w=pick(nouns.concat(adjectives,verbs)),ask=pick(['magánhangzó','mássalhangzó']);let v=(w.match(/[aáeéiíoóöőuúüű]/gi)||[]).length,answer=ask==='magánhangzó'?v:w.length-v;return{answer,html:`<div class="question">A(z) <span class="wordmark">${w}</span> szóban hány ${ask} van?</div><input id="typed" class="field" type="number" min="0" max="30" inputmode="numeric" placeholder="Írd be a számot!">`}}
+ if(m==='sentence'){let a=[['Hová tetted a könyvet','?'],['Vigyázz az úton','!'],['Ma szép idő van','.'],['Mikor indul a vonat','?'],['Milyen gyönyörű virág','!'],['Holnap iskolába megyek','.'],['Szereted a meséket','?'],['A kutya a kertben játszik','.'],['Kérlek, add ide a ceruzát','!'],['Mikor kezdődik a mese','?']];let s=pick(a),opts=shuffle(['.','?','!']);return{answer:s[1],html:`<div class="question">Milyen írásjel illik a mondat végére?</div><div class="reading" style="text-align:center">${s[0]} …</div><div class="answers">${opts.map(x=>`<button data-choice="${x}">${x}</button>`).join('')}</div>`,bind:bindChoices}}
+ if(m==='vocabulary'){let pairs=[['vidám','jókedvű','szomorú','fáradt','mérges'],['hatalmas','óriási','apró','keskeny','alacsony'],['gyors','sebes','lassú','csendes','nehéz'],['bátor','merész','ijedős','álmos','szelíd'],['szép','gyönyörű','csúnya','unalmas','hangos'],['okos','értelmes','butácska','álmos','lassú'],['hideg','forró','meleg','langyos','hűvös'],['sötét','világos','fényes','derűs','ragyogó']];let p=pick(pairs),op=pick([0,1]),correct=op===0?p[1]:p[2],opts=shuffle([correct,...p.slice(2).filter(x=>x!==correct),op===0?p[4]:p[1]]).slice(0,4);return{answer:opts.indexOf(correct),html:`<div class="question">Melyik szó ${op===0?'rokon értelmű párja':'ellentéte'} ennek: <span class="wordmark">${p[0]}</span>?</div><div class="answers">${opts.map((x,i)=>`<button data-choice="${i}">${x}</button>`).join('')}</div>`,bind:bindChoices}}
+}
+
+function render(){locked=false;chosen=null;heard='';current=makeTask(mode);let sig=mode+'|'+(current.text||current.html.replace(/<[^>]+>/g,'').replace(/\s+/g,' ').trim());if(seen.has(sig)){let tries=0;while(seen.has(sig)&&tries++<30){current=makeTask(mode);sig=mode+'|'+(current.text||current.html.replace(/<[^>]+>/g,'').replace(/\s+/g,' ').trim())}}seen.add(sig);$('feedback').className='feedback';$('feedback').textContent='';$('check').classList.toggle('hidden',mode==='read');$('next').classList.add('hidden');$('qnum').textContent=index+1;$('taskbar').style.width=((index%10+1)*10)+'%';$('task').innerHTML=current.html;if(mode==='read')bindRead();else if(current.bind)current.bind();$('skillLevel').textContent=getLevel(mode)+'. nehézség'}
+function getLevel(m){return Math.max(1,Math.min(5,db.skills?.[m]?.level||1))}
+function setReadFont(size){let el=$('readText');if(!el)return;el.classList.remove('font-normal','font-large','font-xl');el.classList.add('font-'+size);}
+function bindRead(){
+ readWords=current.text.match(/[\p{L}\p{N}]+(?:[-’'][\p{L}\p{N}]+)*/gu)||[];readStatuses=readWords.map(()=> 'pending');readAttempts=readWords.map(()=>0);readFirstPass=0;readIndex=0;readBusy=false;readStarted=false;readFinished=false;readTranscript='';readLastAwarded=false;
+ renderReadWords();$('mic').onclick=toggleReading;$('finishRead').onclick=finishReading;
+ $('speak').onclick=()=>{if(!('speechSynthesis'in window))return;let u=new SpeechSynthesisUtterance(current.text);u.lang='hu-HU';u.rate=.82;speechSynthesis.cancel();speechSynthesis.speak(u)};
+ $('focusRead').onclick=()=>{document.body.classList.toggle('reading-focus');$('focusRead').textContent=document.body.classList.contains('reading-focus')?'⛶ Normál nézet':'⛶ Teljes képernyős olvasás'};
+}
+function renderReadWords(){
+ let htmlOut=readWords.map((w,i)=>`<span class="kw ${readStatuses[i]==='done'?'done':readStatuses[i]==='retry'?'retry':readStatuses[i]==='wrong'?'wrong':''}">${esc(w)}</span>`).join(' ');
+ $('readText').innerHTML=htmlOut;
+ $('mic').textContent=readStarted&&!readFinished?'🔴 Mikrofon aktív – olvass tovább':'🎙 Olvasás indítása';$('mic').disabled=readFinished;
+ $('finishRead').disabled=!readStarted||readFinished;
+ if(readFinished){$('wordResult').innerHTML=`<div class="feedback good">Befejezted az olvasást, Zsombi! ${readFirstPass} szó biztosan egyezett első felismerésre a ${readWords.length} szóból. A színek a beszédfelismerés eredményét mutatják, ezért lehet téves jelzés is.</div>`}
+}
+function normSpeech(s){return (s||'').toLocaleLowerCase('hu-HU').normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^\p{L}\p{N}\s]/gu,' ').split(/\s+/).filter(Boolean)}
+function alignRead(transcript,finalize=false){
+ const spoken=normSpeech(transcript),target=readWords.map(w=>normSpeech(w)[0]||'');let cursor=0,matched=0,newStatuses=readWords.map(()=> 'pending');
+ for(let i=0;i<target.length;i++){
+   let found=-1;for(let j=cursor;j<Math.min(spoken.length,cursor+4);j++){if(spoken[j]===target[i]){found=j;break}}
+   if(found>=0){for(let k=i;k<found-cursor+i;k++)if(k<newStatuses.length)newStatuses[k]='retry';newStatuses[i]='done';matched++;cursor=found+1}
+   else if(finalize&&cursor<spoken.length){newStatuses[i]='wrong'}
+ }
+ if(finalize){for(let i=0;i<newStatuses.length;i++)if(newStatuses[i]==='pending')newStatuses[i]='wrong'}
+ readStatuses=newStatuses;readIndex=Math.min(readWords.length,matched);readFirstPass=matched;
+ renderReadWords();
+}
+function toggleReading(){if(readStarted&&!readFinished)return;startReading()}
+function startReading(){
+ let SR=window.SpeechRecognition||window.webkitSpeechRecognition;if(!SR){feedback('A folyamatos beszédfelismerés ehhez a böngészőhöz nem érhető el. Próbáld a Chrome-ot, HTTPS-kapcsolattal és engedélyezett mikrofonnal.','bad');return}
+ readStarted=true;readFinished=false;readTranscript='';$('heard').textContent='Hallgatlak, Zsombi! Olvass természetes tempóban; a rövid szünetek nem zárják le a feladatot.';renderReadWords();startRecognitionCycle(SR);
+}
+function startRecognitionCycle(SR){if(readFinished||!readStarted||readBusy)return;try{
+ recognition=new SR();recognition.lang='hu-HU';recognition.continuous=true;recognition.interimResults=true;recognition.maxAlternatives=1;readBusy=true;
+ recognition.onresult=e=>{let interim='';for(let i=e.resultIndex;i<e.results.length;i++){const part=e.results[i][0].transcript.trim();if(e.results[i].isFinal&&part){readTranscript=(readTranscript+' '+part).trim()}else if(part){interim+=' '+part}}const visible=(readTranscript+' '+interim).trim();$('heard').textContent='Olvaslak… A szünetek alatt is várok.';alignRead(visible,false)};
+ recognition.onerror=e=>{if(e.error!=='no-speech'&&e.error!=='aborted')$('heard').textContent='A mikrofon jelzése: '+e.error+'. Megpróbálom folytatni.'};
+ recognition.onend=()=>{readBusy=false;if(!readFinished&&readStarted){clearTimeout(readRestartTimer);readRestartTimer=setTimeout(()=>startRecognitionCycle(SR),650)}};
+ recognition.start();
+ }catch(e){readBusy=false;$('heard').textContent='A mikrofon nem indítható. Ellenőrizd a böngésző mikrofonengedélyét.'}}
+function finishReading(){if(!readStarted||readFinished)return;readFinished=true;readStarted=false;clearTimeout(readRestartTimer);if(recognition){try{recognition.onend=null;recognition.stop()}catch(e){}}alignRead(readTranscript,true);let good=readStatuses.filter(x=>x==='done').length;let accuracy=Math.round(good/Math.max(1,readWords.length)*100);if(!readLastAwarded){readLastAwarded=true;record(true,accuracy);dailyState().words+=good;save();db.readings.unshift({date:new Date().toLocaleString('hu-HU'),score:accuracy,correct:good,total:readWords.length});db.readings=db.readings.slice(0,60);save();finish()}$('mic').disabled=true;$('finishRead').disabled=true;$('heard').textContent='Az olvasás lezárult. A színek a felismert szavakat mutatják; a beszédfelismerés tévedhet.';renderReadWords();mukiReact(good>=Math.ceil(readWords.length*.8),good>=Math.ceil(readWords.length*.8)?'Nagyszerűen végigolvastad! Ügyes voltál!':'Köszönöm, hogy végigolvastad! Gyakoroljunk még együtt!');}
+function esc(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function bindChoices(){document.querySelectorAll('[data-choice]').forEach(b=>b.onclick=()=>{if(locked)return;document.querySelectorAll('[data-choice]').forEach(x=>x.classList.remove('selected'));b.classList.add('selected');chosen=b.dataset.choice})}
+function feedback(msg,type){$('feedback').className='feedback '+(type==='good'?'good':type==='bad'?'bad':'info');$('feedback').textContent=msg}
+
+function record(ok,accuracy=null){db.totals[mode]=(db.totals[mode]||0)+1;if(ok){db.correct[mode]=(db.correct[mode]||0)+1;db.points+=10}
+ let sk=db.skills[mode]||{level:1,recent:[]};sk.recent.push(accuracy===null?(ok?100:0):accuracy);sk.recent=sk.recent.slice(-5);if(sk.recent.length>=5){let avg=sk.recent.reduce((a,b)=>a+b,0)/sk.recent.length;if(avg>=85&&sk.level<5){sk.level++;sk.recent=[]}else if(avg<55&&sk.level>1){sk.level--;sk.recent=[]}}db.skills[mode]=sk;
+ db.lastActive=new Date().toISOString();progressGame(ok,0,ok?10:0);save()}
+function finish() {locked=true;$('check').classList.add('hidden');$('next').classList.remove('hidden')}
+function checkAnswer(){if(locked)return;let ok=false;if(mode==='read'){if(!readStarted){feedback('Először indítsd el az olvasást!','info');return}finishReading();return}if(mode==='grammar'){let v=$('typed').value.trim();if(!v){feedback('Írd be a választ!','info');return}ok=Number(v)===current.answer}else{if(chosen===null){feedback('Válassz egy választ!','info');return}ok=String(chosen)===String(current.answer)}record(ok,ok?100:0);feedback(ok?'Helyes válasz, Zsombi! +10 pont.':`Most nem sikerült. A helyes válasz: ${current.answer}. Semmi baj, ebből is tanulunk!`,ok?'good':'bad');mukiReact(ok);finish()}
+function nextQuestion(){index++;render()}
+
+function goHome(){document.body.classList.remove('reading-focus','activity-focus');endSession();readFinished=true;readStarted=false;clearTimeout(readRestartTimer);if(recognition)try{recognition.abort()}catch(e){}$('lesson').style.display='none';$('parent').style.display='none';$('shop').style.display='none';if($('english'))$('english').style.display='none';$('home').style.display='block';updateHeader()}
+function showParent(){endSession();if(recognition)try{recognition.abort()}catch(e){}$('home').style.display='none';$('lesson').style.display='none';$('shop').style.display='none';$('parent').style.display='block';let n=Object.values(db.totals).reduce((a,b)=>a+b,0),c=Object.values(db.correct).reduce((a,b)=>a+b,0);$('parentStats').innerHTML=`<div class="stat"><strong>${db.points}</strong><span class="small">Összpont</span></div><div class="stat"><strong>${n}</strong><span class="small">Feladat</span></div><div class="stat"><strong>${n?Math.round(c/n*100):0}%</strong><span class="small">Helyes</span></div><div class="stat"><strong>${Math.floor((db.history[dateKey()]||0)/60)} p</strong><span class="small">Mai gyakorlás</span></div>`;
+ let now=new Date(),week=0,month=0;for(let [k,v] of Object.entries(db.history||{})){let d=new Date(k+'T12:00:00');let diff=(now-d)/86400000;if(diff>=0&&diff<7)week+=v;if(d.getFullYear()===now.getFullYear()&&d.getMonth()===now.getMonth())month+=v}
+ $('timeStats').innerHTML=`<div class="stat"><strong>${Math.floor((db.history[dateKey()]||0)/60)} p</strong><span class="small">Ma</span></div><div class="stat"><strong>${Math.floor(week/60)} p</strong><span class="small">Elmúlt 7 nap</span></div><div class="stat"><strong>${Math.floor(month/60)} p</strong><span class="small">Ebben a hónapban</span></div>`;
+ $('typeStats').innerHTML=Object.keys(labels).map(k=>`<div class="barrow"><span>${labels[k]} <span class="small">(${getLevel(k)}. szint)</span></span><b>${db.correct[k]||0} / ${db.totals[k]||0}</b></div>`).join('');
+ $('readingStats').innerHTML=db.readings.length?db.readings.map(r=>`<div class="barrow"><span>${r.date}</span><b>${r.score}% (${r.correct}/${r.total})</b></div>`).join(''):'<p class="small">Még nincs olvasási adat.</p>'}
+function exportData(){let blob=new Blob([JSON.stringify(db,null,2)],{type:'application/json'}),a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='zsombi-blokkbajnok-mentes.json';a.click();URL.revokeObjectURL(a.href)}
+function resetData(){if(confirm('Biztosan törlöd Zsombi összes eredményét és gyűjteményét?')){endSession();db=fresh();save();showParent()}}
+
+const shopItems = [
+['Bőr fejpánt','🪖',900],['Fa kard','🗡️',950],['Bőr csizma','🥾',1000],['Zöld köpeny','🧥',1050],['Vas sisak','⛑️',1100],['Piros pajzs','🛡️',1150],['Kék tunika','👕',1200],['Bányászcsákány','⛏️',1250],['Kis slime társ','🟢',1300],['Csontváz maszk','💀',1350],['Arany öv','🟨',1400],['Gyémánt csizma','👢',1450],['Méhecske hátizsák','🐝',1500],['Farkasjelvény','🐺',1550],['Vas mellvért','🦺',1600],['Varázsital','🧪',1650],['Enderman szem','🟣',1700],['Tűzvirág köpeny','🔥',1750],['Kis axolotl','🦎',1800],['Zombi kapucni','🧟',1800],
+['Arany kard','⚔️',2100],['Csontváz íj','🏹',2300],['Pók páncél','🕷️',2500],['Creeper maszk','💚',2700],['Vas gólem figura','🗿',2900],['Lávatallér','🌋',3100],['Nether csizma','🥾',3300],['Varázsló kalap','🧙',3500],['Méregzöld pajzs','🛡️',3700],['Denevér köpeny','🦇',3900],
+['Gyémánt kard','💎',4200],['Ender sárkány tojás','🥚',4500],['Aranyalma','🍎',4800],['Creeper plüss','🧸',5100],['Magma kocka','🟥',5400],['Ritka farkas','🐺',5700],['Éjkék páncél','🛡️',6000],['Láthatatlanság ital','🧪',6300],['Lángoló csákány','⛏️',6600],['Varázsnyereg','🐴',6900],
+['Netherite sisak','🪖',7300],['Netherite mellvért','🥋',7700],['Netherite nadrág','👖',8100],['Netherite csizma','🥾',8500],['Villámkalapács','🔨',8900],['Jégsárkány társ','🐉',9300],['Enderman figura','👾',9700],['Arany szárny','🪽',10100],['Lila portálköpeny','🟪',10500],['Ősi relikvia','🏺',10900],
+['Wither maszk','☠️',11400],['Sárkánypikkely páncél','🐲',11900],['Prizma kard','🔱',12400],['Lélekfáklya','🕯️',12900],['Óceánőr sisak','🌊',13400],['Villámfarkas','⚡',13900],['Kristályszárny','💠',14400],['Mélytengeri axolotl','🦎',14900],['Királyi köpeny','👑',15400],['Őrző szeme','👁️',15900],
+['Nether sárkány','🐉',16500],['Arany gólem','🗿',17100],['Vihar páncél','🌩️',17700],['Lángoló szárny','🔥',18300],['Ender korona','👑',18900],['Legendás csákány','⛏️',19500],['Ősi sárkánytojás','🥚',20100],['Lila slime király','🟣',20700],['Varázsló botja','🪄',21300],['Lélekpáncél','💀',21900],
+['Kristálysárkány','🐲',22600],['Főnix társ','🦅',23300],['Királyi netherite szett','🥇',24000],['Portálőr páncél','🌀',24700],['Végtelen kard','⚔️',25400],['Ősi titán figura','🗿',26100],['Sötét sárkányköpeny','🐉',26800],['Gyémánt trón','💎',27500],['Legendás farkasfalka','🐺',28200],['Ender király koronája','👑',28900],
+['Végzet páncélja','🛡️',29700],['Mennydörgés sárkánya','🐲',30500],['Ősi portál kulcsa','🗝️',31300],['Kozmikus szárny','🌌',32100],['Mesterépítő kalapács','🔨',32900],['Sárkánylovas nyereg','🐉',33700],['Lélekőr társ','👻',34500],['Végtelen gyémántkészlet','💎',35300],['Kockavilág bajnoka páncél','🏆',36100],['Legendás blokkgyűjtemény','🧱',36900]
+,['Mennyei creeper társ','💚',37700],['Őrző sárkány páncél','🐉',38500],['Kockavilág trónörököse','👑',39300],['Fénykapu szárny','✨',40100],['Végső építőmester szett','🧱',40900],['Örök jégsárkány','🐲',41700],['Legendás portálőr','🌀',42500],['Királyi slime korona','🟢',43300],['Végtelen kaland köpenye','🧥',44100],['BlokkBajnok fődíj','🏆',45000]
+].map((x,i)=>({id:i,name:x[0],icon:x[1],price:x[2]}));
+function showShop(){endSession();$('home').style.display='none';$('lesson').style.display='none';$('parent').style.display='none';$('shop').style.display='block';$('shopPoints').textContent=db.points;renderShop('all')}
+function renderShop(filter='all'){shopFilter=filter;$('shopPoints').textContent=db.points;let items=filter==='owned'?shopItems.filter(x=>db.owned.includes(x.id)):shopItems;$('shopGrid').innerHTML=items.map(x=>{let owned=db.owned.includes(x.id);return `<div class="item ${owned?'owned':''}"><div class="emoji">${x.icon}</div><b>${x.name}</b><span class="small">${x.price.toLocaleString('hu-HU')} ⭐</span>${owned?'<button class="secondary" disabled>✓ Megvan!</button>':`<button ${db.points<x.price?'disabled':''} onclick="buyItem(${x.id})">Megveszem</button>`}</div>`}).join('');if(!items.length)$('shopGrid').innerHTML='<p>Még nincs megszerzett tárgyad. Irány a gyakorlás!</p>'}
+function buyItem(id){let x=shopItems.find(z=>z.id===id);if(!x||db.owned.includes(id)||db.points<x.price)return;db.points-=x.price;db.owned.push(id);save();renderShop(shopFilter);$('shopPoints').textContent=db.points;updateMissions()}
+
+// --- BlokkBajnok 6.0: egységes Muki, teljes feladatfelület, olvasáskövetés ---
+const englishUnits=[
+ {name:'Welcome!',words:[['bag','táska'],['book','könyv'],['computer','számítógép'],['pencil','ceruza'],['pen','toll'],['ruler','vonalzó'],['rubber','radír'],['desk','íróasztal'],['chair','szék'],['pencil case','tolltartó'],['notebook','füzet']],grammar:['What’s this? / What’s that?','This is / That is','It’s a / It’s an','Is it a …? Yes, it is. / No, it isn’t.']},
+ {name:'Home and family',words:[['mother','anya'],['father','apa'],['sister','lánytestvér'],['brother','fiútestvér'],['grandmother','nagymama'],['grandfather','nagypapa'],['house','ház'],['bedroom','hálószoba']],grammar:['Családtagok megnevezése','Birtoklás és egyszerű bemutatás']},
+ {name:'About people',words:[['tall','magas'],['short','alacsony'],['young','fiatal'],['old','idős'],['happy','boldog'],['kind','kedves']],grammar:['I am / You are / He is / She is','Melléknevek és személyleírás']},
+ {name:'My friends',words:[['friend','barát'],['boy','fiú'],['girl','lány'],['teacher','tanár'],['play','játszik'],['sing','énekel']],grammar:['Have got / Has got','Can / Can’t']},
+ {name:'Food and drink',words:[['apple','alma'],['banana','banán'],['bread','kenyér'],['milk','tej'],['water','víz'],['cheese','sajt']],grammar:['I like / I don’t like','Do you like …?']},
+ {name:'Places',words:[['school','iskola'],['park','park'],['shop','bolt'],['zoo','állatkert'],['library','könyvtár'],['playground','játszótér']],grammar:['There is / There are','In / on / under / next to / between']},
+ {name:'My world',words:[['morning','reggel'],['afternoon','délután'],['evening','este'],['house','ház'],['garden','kert'],['run','fut']],grammar:['Napi tevékenységek','Egyszerű kérdések és válaszok']},
+ {name:'My clothes',words:[['shirt','ing'],['trousers','nadrág'],['shoes','cipő'],['dress','ruha'],['jacket','dzseki'],['hat','kalap']],grammar:['Present Continuous: I’m wearing …','He’s / She’s wearing …']}
+];
+let activeUnit=0,englishMode='words',englishQuestion=null;
+function mukiMarkup(){
+ return `<svg class="muki-art idle" viewBox="0 0 96 96" width="76" height="76" shape-rendering="crispEdges" aria-hidden="true">
+ <path fill="#315d36" d="M17 23 28 12h43l11 11v48L71 83H28L17 72z"/>
+ <path fill="#8bdc63" d="M22 24 31 16h37l9 9v43l-9 9H31l-9-9z"/>
+ <path fill="#a8ef78" d="M28 22h35v7H28z"/>
+ <path fill="#fff" d="M32 39h10v13H32zM55 39h10v13H55z"/>
+ <path fill="#203626" d="M36 43h5v7h-5zM59 43h5v7h-5z"/>
+ <path fill="#315d36" d="M39 61h19v5H39zM35 57h5v4h-5zM58 57h5v4h-5z"/>
+ <path fill="#6eb84e" d="M8 42h10v22H8zM78 42h10v22H78z"/>
+ <path fill="#315d36" d="M30 78h12v10H30zM55 78h12v10H55z"/>
+ </svg><div class="muki-copy"><div class="muki-name">MUKI • A SEGÍTŐD</div><div class="small">Csendben drukkolok neked!</div><div class="muki-bubble" aria-live="polite"></div></div>`;
+}
+function initMuki(targetId){
+ const el=$(targetId);if(!el)return;
+ el.innerHTML=mukiMarkup();
+}
+function mukiReact(ok,message){
+ const targets=['lessonMuki','englishMuki'];
+ targets.forEach(id=>{
+  const root=$(id);if(!root||!root.innerHTML)return;
+  const art=root.querySelector('.muki-art'),bubble=root.querySelector('.muki-bubble');
+  if(art){art.classList.remove('idle','happy','think');art.classList.add(ok?'happy':'think')}
+  if(bubble){bubble.classList.remove('show');bubble.textContent='';}
+ });
+ const active=($('english')&&$('english').style.display==='block'?'englishMuki':'lessonMuki');
+ const root=$(active)||$(targets.find(id=>$(id)&&$(id).style.display!=='none'));
+ const bubble=root&&root.querySelector('.muki-bubble');
+ const art=root&&root.querySelector('.muki-art');
+ const msg=message||(ok?pick(['Ez az! Nagyon ügyes voltál!','Sikerült! Büszke vagyok rád!','Hurrá! Megcsináltad a küldetést!']):pick(['Semmi baj, próbáljuk meg újra!','Jó próbálkozás! Menni fog, csak így tovább!','Gondoljuk át együtt, és próbáld újra!']));
+ if(art){art.classList.remove('idle','happy','think');art.classList.add(ok?'happy':'think')}
+ if(!('speechSynthesis' in window)){if(bubble){bubble.textContent=msg;bubble.classList.add('show')}return}
+ speechSynthesis.cancel();
+ const u=new SpeechSynthesisUtterance(msg);u.lang='hu-HU';u.rate=.88;u.pitch=1.08;
+ const voices=speechSynthesis.getVoices();const hu=voices.find(v=>v.lang&&v.lang.toLowerCase().startsWith('hu'));if(hu)u.voice=hu;
+ u.onstart=()=>{if(bubble){bubble.textContent=msg;bubble.classList.add('show')}};
+ u.onend=()=>{if(art){art.classList.remove('happy','think');art.classList.add('idle')}};
+ u.onerror=()=>{if(bubble){bubble.textContent=msg;bubble.classList.add('show')}};
+ speechSynthesis.speak(u);
+}
+function showEnglish(){document.body.classList.add('activity-focus');initMuki('englishMuki');endSession();['home','lesson','parent','shop','english'].forEach(id=>$(id).style.display='none');$('english').style.display='block';renderUnits()}
+function renderUnits(){
+ $('unitGrid').innerHTML=englishUnits.map((u,i)=>{let st=db.english[i]||{done:0,correct:0};return `<div class="item"><b>Unit ${i+1}</b><span>${u.name}</span><span class="small">${st.done||0} gyakorlás • ${st.correct||0} jó válasz</span><button onclick="selectUnit(${i})">Modul kiválasztása</button></div>`}).join('');
+ $('englishSummary').textContent='Young Stars 3 • '+Object.keys(db.english).length+' megkezdett modul';
+}
+function selectUnit(i){activeUnit=i;let u=englishUnits[i];$('unitDetail').innerHTML=`<h3>Unit ${i+1}: ${u.name}</h3><p><b>Mit gyakorolnál?</b></p><div class="row"><button onclick="beginEnglish('words')">Szókincs</button><button onclick="beginEnglish('grammar')">Nyelvtan</button><button class="secondary" onclick="beginEnglish('mixed')">Vegyes kihívás</button></div><p class="small">Nyelvtani témák a könyv ismert tartalomjegyzéke alapján; a pontos leckeszintet a gyermek és a pedagógus választhatja meg.</p>`}
+function beginEnglish(kind){englishMode=kind;englishQuestion=makeEnglishQuestion();let u=englishUnits[activeUnit];$('unitDetail').innerHTML=`<div class="question">${englishQuestion.q}</div>${englishQuestion.html}<div id="engFeedback" class="feedback" role="status"></div><div class="row"><button onclick="checkEnglish()">Ellenőrzés</button><button class="secondary" onclick="beginEnglish('${kind}')">Másik feladat</button></div>`}
+function makeEnglishQuestion(){
+ let u=englishUnits[activeUnit],kind=englishMode==='mixed'?(Math.random()<.65?'words':'grammar'):englishMode;
+ if(kind==='words'){let pair=pick(u.words),opts=shuffle([pair[1],...shuffle(u.words.filter(x=>x!==pair).map(x=>x[1])).slice(0,3)]);return{q:`Mit jelent magyarul: ${pair[0]}?`,answer:pair[1],html:`<div class="answers">${opts.map(x=>`<button data-eng="${esc(x)}" onclick="selectEnglish(this)">${esc(x)}</button>`).join('')}</div>`}}
+ let g=pick(u.grammar);return{q:`Melyik témát gyakoroljuk?`,answer:g,html:`<div class="reading">${esc(g)}</div><p>Mondd el Mukinak, mit jelent, vagy kérj segítséget a szülődtől! Ez most témaválasztó feladat.</p><div class="answers"><button data-eng="help" onclick="selectEnglish(this)">Muki segítsen</button><button data-eng="again" onclick="selectEnglish(this)">Még gyakorlom</button></div>`};
+}
+function selectEnglish(el){document.querySelectorAll('[data-eng]').forEach(x=>x.classList.remove('selected'));el.classList.add('selected')}
+function checkEnglish(){let b=document.querySelector('[data-eng].selected');if(!b){let all=document.querySelectorAll('[data-eng]');all.forEach(x=>x.onclick=()=>{all.forEach(y=>y.classList.remove('selected'));x.classList.add('selected')});$('engFeedback').className='feedback info';$('engFeedback').textContent='Válassz egy választ!';return}
+ let val=b.dataset.eng,ok=englishMode!=='grammar'&&val===englishQuestion.answer;
+ db.english[activeUnit]=db.english[activeUnit]||{done:0,correct:0};db.english[activeUnit].done++;if(ok){db.english[activeUnit].correct++;db.points+=10;save();$('engFeedback').className='feedback good';$('engFeedback').textContent='Nagyszerű! Helyes válasz! +10 pont.';mukiReact(true,'Nagyszerű, Zsombi! Ez nagyon ügyes válasz volt!')}else if(val==='help'){mukiReact(false,'Nézzük meg együtt a választ: '+englishQuestion.answer);$('engFeedback').className='feedback info';$('engFeedback').textContent='A helyes válasz: '+englishQuestion.answer+'. Hallgasd meg Mukit!'}else{$('engFeedback').className='feedback info';$('engFeedback').textContent='Jó gyakorlás! Próbáljunk egy új feladatot.';mukiReact(false,'Semmi baj! Próbálkozzunk még egyszer!')}renderUnits();
+}
+const worldItems=[['Kis ház','🏠',80],['Kert','🌳',100],['Farm','🐑',140],['Könyvtár','📚',180],['Őrtorony','🗼',220],['Vár','🏰',400],['Bánya','⛏️',260],['Kincseskamra','💎',500],['Axolotl-tó','🦎',320],['Sárkányfészek','🐉',700]];
+function renderWorld(){let owned=db.world||[];$('myWorld').innerHTML=`<p>⭐ ${db.points} pont • ${owned.length}/${worldItems.length} építmény</p><div class="shopgrid">${worldItems.map((x,i)=>`<div class="item ${owned.includes(i)?'owned':''}"><div class="emoji">${x[1]}</div><b>${x[0]}</b><span class="small">${x[2]} ⭐</span>${owned.includes(i)?'<button disabled>✓ Felépült</button>':`<button ${db.points<x[2]?'disabled':''} onclick="buildWorld(${i})">Felépítem</button>`}</div>`).join('')}</div>`}
+function buildWorld(i){let x=worldItems[i];if(!x||db.world.includes(i)||db.points<x[2])return;db.points-=x[2];db.world.push(i);save();renderWorld()}
+const oldUpdateHeader=updateHeader;
+updateHeader=function(){oldUpdateHeader();if($('myWorld'))renderWorld();if($('englishSummary'))$('englishSummary').textContent='Young Stars 3 • '+Object.keys(db.english||{}).length+' megkezdett modul'};
+
+ensureDay();updateHeader();updateMissions();renderWorld();
+</script>
+</body></html>
